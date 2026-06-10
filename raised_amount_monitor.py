@@ -307,19 +307,37 @@ def generate_graph(csv_path: Path, graph_path: Path) -> None:
         draw_line(pixels, width, height, x - 4, y, x + 4, y, line, 2)
         draw_line(pixels, width, height, x, y - 4, x, y + 4, line, 2)
 
-    start_label = min_time.strftime("%d/%m %H:%M")
-    end_label = max_time.strftime("%d/%m %H:%M")
-    draw_text(pixels, width, height, left, height - 55, start_label, text, 2)
-    draw_text(
-        pixels,
-        width,
-        height,
-        width - right - text_width(end_label, 2),
-        height - 55,
-        end_label,
-        text,
-        2,
-    )
+    label_scale = 2 if len(plotted) <= 8 else 1
+    label_rows = 2 if label_scale == 2 else 3
+    label_height = 7 * label_scale
+    row_gap = 5 if label_scale == 2 else 3
+    date_y = height - bottom + 16
+    time_y = date_y + label_height + 3
+    for index, ((x, _), (timestamp, _)) in enumerate(zip(plotted, points)):
+        tick_bottom = height - bottom + 6
+        draw_line(pixels, width, height, x, height - bottom, x, tick_bottom, axis)
+
+        row_offset = (index % label_rows) * ((label_height * 2) + row_gap)
+        date_label = timestamp.strftime("%d/%m")
+        time_label = timestamp.strftime("%H:%M")
+        label_x = max(
+            left,
+            min(
+                x - text_width(date_label, label_scale) // 2,
+                width - right - text_width(date_label, label_scale),
+            ),
+        )
+        draw_text(pixels, width, height, label_x, date_y + row_offset, date_label, text, label_scale)
+
+        time_x = max(
+            left,
+            min(
+                x - text_width(time_label, label_scale) // 2,
+                width - right - text_width(time_label, label_scale),
+            ),
+        )
+        draw_text(pixels, width, height, time_x, time_y + row_offset, time_label, text, label_scale)
+
     latest = f"LATEST {nice_amount(amounts[-1])}"
     draw_text(pixels, width, height, width - 30 - text_width(latest, 2), 28, latest, text, 2)
 
