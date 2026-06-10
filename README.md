@@ -8,6 +8,8 @@ The Python application in `raised_amount_monitor.py` fetches the page, extracts 
 
 ![Raised amount graph](graph.png)
 
+GitHub may cache the image preview shown above. For the latest generated graph, click the image to open `graph.png` directly, or check the latest rows in `raised_amount_log.csv`.
+
 ## Generated Files
 
 - `raised_amount_log.csv` contains the timestamped amount history.
