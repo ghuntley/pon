@@ -34,6 +34,16 @@ If the script fails, no commit is made. If the script succeeds but does not chan
 
 GitHub treats scheduled workflows as best effort, so this repository requests an update every five minutes, but the actual run may happen a little later when GitHub has a runner available.
 
+## Running On Demand
+
+The workflow can also be run manually from GitHub:
+
+1. Open the repository's **Actions** tab.
+2. Choose **Run Python app**.
+3. Select **Run workflow**.
+
+That ad hoc run follows the same process as the scheduled run: it runs the monitor, then commits and pushes any updated CSV or graph output.
+
 ## Running Locally
 
 Run the monitor manually with:
